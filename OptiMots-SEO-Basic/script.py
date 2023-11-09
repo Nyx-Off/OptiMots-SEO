@@ -1,6 +1,8 @@
 import requests
 from bs4 import BeautifulSoup
 import re
+import argparse
+
 
 def recuperer_html(url):
     reponse = requests.get(url)
@@ -53,5 +55,11 @@ def audit_seo(url, chemin_fichier_parasites):
     }
 
 # Utilisation de la fonction audit_seo
-resultats = audit_seo('https://www.esiee-it.fr/fr', 'parasite.csv')
-print(resultats)
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description='Effectuer un audit SEO simple sur une page web.')
+    parser.add_argument('url', help='L\'URL de la page à analyser')
+    parser.add_argument('fichier_parasites', help='Chemin vers le fichier CSV des mots parasites', default='parasite.csv', nargs='?')
+    args = parser.parse_args()
+
+    resultats = audit_seo(args.url, args.fichier_parasites)
+    print(resultats)
