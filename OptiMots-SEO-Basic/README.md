@@ -1,4 +1,4 @@
-# Outil d'Audit SEO Simple
+# Outil d'Audit SEO Basique
 
 Ce dépôt contient un script Python conçu pour effectuer un audit SEO de base sur une page web. Cet outil est utile pour les webmasters et les spécialistes du SEO qui souhaitent obtenir un aperçu rapide des éléments SEO fondamentaux d'une page.
 
