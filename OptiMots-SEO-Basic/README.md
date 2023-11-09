@@ -22,15 +22,7 @@ Installez les dépendances avec `pip` :
 Le script peut être exécuté avec une URL et un chemin vers un fichier CSV contenant les mots parasites. Par exemple :
 `python script.py https://www.example.com/path parasite.csv`
 
-
-Le fichier CSV des mots parasites doit contenir un mot par ligne, comme suit :
-
-`le
-la
-et
-en
-à
-il`
+Le fichier CSV des mots parasites doit contenir un mot par ligne.
 
 ## Résultats
 L'exécution du script affichera dans la console un dictionnaire contenant les résultats de l'audit :
