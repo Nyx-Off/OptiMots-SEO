@@ -1,4 +1,4 @@
-#OptiMots-SEO
+## OptiMots-SEO
 
 Ce projet contient un script Python qui effectue un audit SEO de base sur une page web donnée. L'audit inclut le comptage des mots-clés (en excluant les mots parasites), l'identification des liens entrants et sortants, ainsi que la vérification de la présence des attributs alt dans les images.
 
