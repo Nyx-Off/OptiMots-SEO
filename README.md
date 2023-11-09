@@ -28,9 +28,9 @@ Assurez-vous de mettre à jour le chemin du fichier parasite.csv dans le script 
 ## Exemple de résultat
 Un exemple de sortie du script pourrait ressembler à ceci :
 
-{'Mots clés': [('campus', 27), ('date', 22), ('lire', 22)], 'Nombre de liens entrants': 42, 'Nombre de liens sortants': 176, 'Balises alt manquantes': 17}
+`{'Mots clés': [('campus', 27), ('date', 22), ('lire', 22)], 'Nombre de liens entrants': 42, 'Nombre de liens sortants': 176, 'Balises alt manquantes': 17}`
 
 Cela indiquerait les principaux mots-clés identifiés, le nombre de liens internes et externes, ainsi que les balises d'image alt manquantes.
 
 ## Licence
-Ce projet est distribué sous la licence MIT.
+Ce projet est distribué sous la licence `MIT`.
