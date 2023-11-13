@@ -90,6 +90,13 @@ def create_pdf_report(data, filename, num_keywords):
     story.append(Paragraph(f'Nombre de liens sortants: {data.get("Nombre de liens sortants", 0)}', report_body_style))
     story.append(Paragraph(f'Balises alt manquantes: {data.get("Balises alt manquantes", 0)}', report_body_style))
     
+
+    if data.get('Images sans alt'):
+        story.append(Paragraph('Images sans attribut alt:', report_heading_style))
+        for image_src in data['Images sans alt']:
+            story.append(Paragraph(image_src, report_body_style))
+        story.append(Spacer(1, 12))
+
     doc.build(story)
 
 def analyser_semantique(html):
@@ -139,6 +146,8 @@ def audit_seo(url, chemin_fichier_parasites,num_keywords):
     if not html:
         return None
     
+    soupe = BeautifulSoup(html, 'html.parser')  # Créez l'objet BeautifulSoup ici
+
     texte_sans_html = enlever_balises_html(html)
     occurrences = compter_occurrences(texte_sans_html)
     parasites = charger_parasites(chemin_fichier_parasites)
@@ -148,6 +157,9 @@ def audit_seo(url, chemin_fichier_parasites,num_keywords):
     alt_images = extraire_valeurs_attribut(html, 'img', 'alt')
     liens_href = extraire_valeurs_attribut(html, 'a', 'href')
     
+    images = soupe.find_all('img')
+    images_alt_manquantes = [img['src'] for img in images if not img.get('alt')]
+
     liens_entrants = [href for href in liens_href if href.startswith(url)]
     liens_sortants = [href for href in liens_href if not href.startswith(url)]
     
@@ -160,7 +172,9 @@ def audit_seo(url, chemin_fichier_parasites,num_keywords):
         'Mots clés': list(mots_cles.items()),
         'Nombre de liens entrants': len(liens_entrants),
         'Nombre de liens sortants': len(liens_sortants),
-        'Balises alt manquantes': sum(1 for alt in alt_images if not alt)
+        'Balises alt manquantes': sum(1 for alt in alt_images if not alt),
+        'Images sans alt': images_alt_manquantes 
+
     }
 
 # Utilisation de la fonction audit_seo
@@ -185,8 +199,13 @@ if __name__ == "__main__":
     
     # Générer un rapport PDF si demandé
     if args.pdf:
-        sanitized_title = re.sub(r'[^\w]', '_', resultats['Title'])[:50]  # Sanitize pour nom de fichier
-        date_str = datetime.now().strftime('%Y%m%d')
-        pdf_filename = f'SEO_Audit_{date_str}_{sanitized_title}.pdf'
-        create_pdf_report(resultats, pdf_filename, args.nmc)  # Utilisez le nombre de mots clés spécifié
-        print_colored(f'Rapport d\'audit SEO créé : {pdf_filename}', Fore.GREEN)
+        # Utiliser un horodatage plus détaillé pour le nom du fichier
+        date_str = datetime.now().strftime('%d.%m.%Y_%H-%M-%S')
+        sanitized_title = re.sub(r'[^\w]', '_', resultats['url'])[:50]
+        pdf_filename = f'Optimot_SEO_Audit_{date_str}_{sanitized_title}.pdf'
+
+        try:
+            create_pdf_report(resultats, pdf_filename, args.nmc)
+            print_colored(f'Rapport d\'audit SEO créé : {pdf_filename}', Fore.GREEN)
+        except PermissionError:
+            print_colored('Erreur : Impossible de créer le fichier PDF, il est peut-être ouvert dans un autre programme.', Fore.RED)
