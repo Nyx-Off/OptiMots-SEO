@@ -146,7 +146,7 @@ def audit_seo(url, chemin_fichier_parasites,num_keywords):
     if not html:
         return None
     
-    soupe = BeautifulSoup(html, 'html.parser')  # Créez l'objet BeautifulSoup ici
+    soupe = BeautifulSoup(html, 'html.parser')  # Crée objet BeautifulSoup 
 
     texte_sans_html = enlever_balises_html(html)
     occurrences = compter_occurrences(texte_sans_html)
@@ -178,7 +178,6 @@ def audit_seo(url, chemin_fichier_parasites,num_keywords):
     }
 
 # Utilisation de la fonction audit_seo
-# Utilisation de la fonction audit_seo
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Effectuer un audit SEO simple sur une page web.')
     parser.add_argument('url', help='L\'URL de la page à analyser')
@@ -199,7 +198,7 @@ if __name__ == "__main__":
     
     # Générer un rapport PDF si demandé
     if args.pdf:
-        # Utiliser un horodatage plus détaillé pour le nom du fichier
+        # un horodatage plus détaillé pour le nom du fichier
         date_str = datetime.now().strftime('%d.%m.%Y_%H-%M-%S')
         sanitized_title = re.sub(r'[^\w]', '_', resultats['url'])[:50]
         pdf_filename = f'Optimot_SEO_Audit_{date_str}_{sanitized_title}.pdf'
