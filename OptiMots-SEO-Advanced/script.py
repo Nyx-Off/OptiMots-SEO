@@ -153,6 +153,7 @@ def audit_seo(url, chemin_fichier_parasites,num_keywords):
     
     logging.info('Audit SEO terminé avec succès')
     return {
+        'url': url,
         'Title': title,
         'Meta Description': meta_description,
         'Headers': headers,
