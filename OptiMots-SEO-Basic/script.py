@@ -3,7 +3,6 @@ from bs4 import BeautifulSoup
 import re
 import argparse
 
-
 def recuperer_html(url):
     reponse = requests.get(url)
     reponse.raise_for_status()
@@ -13,9 +12,10 @@ def enlever_balises_html(texte_html):
     soupe = BeautifulSoup(texte_html, 'html.parser')
     return soupe.get_text()
 
-def extraire_valeurs_attribut(texte_html, balise, attribut):
+def compter_alt_manquants(texte_html):
     soupe = BeautifulSoup(texte_html, 'html.parser')
-    return [element.get(attribut) for element in soupe.find_all(balise) if element.has_attr(attribut)]
+    images = soupe.find_all('img')
+    return sum(1 for image in images if not image.has_attr('alt') or not image['alt'])
 
 def compter_occurrences(texte):
     texte = texte.lower()
@@ -34,16 +34,18 @@ def charger_parasites(chemin_fichier):
         parasites = fichier.read().splitlines()
     return parasites
 
+def extraire_valeurs_attribut(texte_html, balise, attribut):
+    soupe = BeautifulSoup(texte_html, 'html.parser')
+    return [element.get(attribut) for element in soupe.find_all(balise) if element.has_attr(attribut)]
+
 def audit_seo(url, chemin_fichier_parasites):
     html = recuperer_html(url)
     texte_sans_html = enlever_balises_html(html)
     occurrences = compter_occurrences(texte_sans_html)
     parasites = charger_parasites(chemin_fichier_parasites)
     mots_cles = enlever_parasites(occurrences, parasites)
-    
-    alt_images = extraire_valeurs_attribut(html, 'img', 'alt')
-    liens_href = extraire_valeurs_attribut(html, 'a', 'href')
 
+    liens_href = extraire_valeurs_attribut(html, 'a', 'href')
     liens_entrants = [href for href in liens_href if href.startswith(url)]
     liens_sortants = [href for href in liens_href if not href.startswith(url)]
 
@@ -51,10 +53,9 @@ def audit_seo(url, chemin_fichier_parasites):
         'Mots clés': list(mots_cles.items())[:3],  # Affiche les 3 premiers mots clés
         'Nombre de liens entrants': len(liens_entrants),
         'Nombre de liens sortants': len(liens_sortants),
-        'Balises alt manquantes': sum(1 for alt in alt_images if not alt)
+        'Balises alt manquantes': compter_alt_manquants(html)
     }
 
-# Utilisation de la fonction audit_seo
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Effectuer un audit SEO simple sur une page web.')
     parser.add_argument('url', help='L\'URL de la page à analyser')
