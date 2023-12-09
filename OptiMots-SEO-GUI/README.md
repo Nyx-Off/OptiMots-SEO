@@ -1,4 +1,3 @@
-
 # SEO Audit Application
 
 ## Description
@@ -17,7 +16,10 @@ Pour exécuter cette application, vous aurez besoin de Python et de quelques bib
 
 1. **Clonez le dépôt** : `git clone [URL_DU_REPO]`
 2. **Installez les Dépendances** : Exécutez `pip install -r requirements.txt` dans le répertoire du projet pour installer les bibliothèques nécessaires.
-3. **Lancez l'Application** : Exécutez `python main.py` (remplacez `main.py` par le nom de votre fichier principal).
+3. **Assurez-vous que les Fichiers Requis sont dans le Bon Répertoire** :
+   - Le dossier `assets` doit être dans le même répertoire que le fichier `main.py`.
+   - Le fichier `parasite.csv` (liste de mots clés parasites) doit également se trouver dans le même répertoire que le fichier `main.py`.
+4. **Lancez l'Application** : Exécutez `python main.py` (remplacez `main.py` par le nom de votre fichier principal).
 
 ## Utilisation
 
@@ -26,6 +28,9 @@ Pour exécuter cette application, vous aurez besoin de Python et de quelques bib
 3. **Spécifiez les Mots-clés et le Nombre Top de Mots-clés** : Si nécessaire, ajoutez des mots-clés spécifiques et le nombre de mots-clés top à analyser.
 4. **Exécutez l'Audit** : Cliquez sur le bouton 'Analyser' pour démarrer l'audit SEO.
 5. **Consultez les Résultats** : Les résultats seront affichés dans une nouvelle fenêtre où vous pouvez les copier ou les sauvegarder en PDF.
+6. **Édition du Fichier Parasite** : 
+   - Vous pouvez éditer le fichier `parasite.csv` directement dans le programme. 
+   - Le fichier doit contenir un mot clé par ligne.
 
 ## Contribution
 
